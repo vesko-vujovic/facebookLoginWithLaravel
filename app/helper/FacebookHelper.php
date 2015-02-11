@@ -2,6 +2,8 @@
 
 use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
+use Facebook\FacebookRequestException;
+use Facebook\FacebookRequest;
 
 class FacebookHelper {
 
@@ -26,12 +28,36 @@ class FacebookHelper {
         $this->session = null;
 
         try {
-            $session = $helper->getSessionFromRedirect();
+            $this->session = $this->helper->getSessionFromRedirect();
+
         } catch(FacebookRequestException $ex) {
             // When Facebook returns an error
         } catch(\Exception $ex) {
             // When validation fails or other local issues
         }
+
+        return $this->session;
+    }
+    public function getToken()
+    {
+        // return token from session
+        return $this->session->getToken();
+    }
+
+    public function getGraph()
+    {
+        $request = new FacebookRequest($this->session, 'GET', '/me');
+        $response = $request->execute();
+
+        return $response->getGraphObject();
+    }
+
+    public function generateSessionFromToken($token)
+    {
+        $this->session = new FacebookSession($token);
+
+        return $this->session;
+
     }
 
 }

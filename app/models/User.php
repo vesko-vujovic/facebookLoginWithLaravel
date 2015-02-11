@@ -28,35 +28,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var array
 	 */
 
-    protected $fillable = array('name', 'email', 'created_at', 'updated_at');
+    protected $fillable = array('name', 'fb_id', 'profile_link','access_token_fb','remember_token', 'email', 'created_at', 'updated_at');
 
 
-	public function loginWithFacebook()
-	{
 
-    // get data from input
-    $code = Input::get( 'code' );
-
-    // get fb service
-    $fb = OAuth::consumer( 'Facebook' );
-
-    // check if code is valid
-
-    // if code is provided get user data and sign in
-    if ( !empty( $code ) ) {
-
-        // This was a callback request from facebook, get the token
-        $token = $fb->requestAccessToken( $code );
-
-        // Send a request with it
-        $result = json_decode( $fb->request( '/me' ), true );
-
-        $user = array('id'=> $result['id'], 'name' => $result['name']);
-
-        return $user;
-    }
-
-	}
 
 
 }

@@ -12,13 +12,13 @@
 */
 
 //start of the routes
-Route::get('/', function(){
-    return View::make('home');
-});
+Route::get('/',['as' => 'home', 'uses' => 'HomeController@index']);
 
 Route::get('/home/login',[ 'as' => 'login', 'uses' => 'FacebookController@login']);
 
 Route::get('/login/fb/callback',['as' => 'callback', 'uses' => 'FacebookController@callback']);
+
+Route::get('/logout',['as' => 'logout', 'uses' => 'HomeController@logout']);
 
 
 
